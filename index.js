@@ -41,6 +41,9 @@ app.use('/api/schedules', require('./routes/scheduleRoutes'));
 // User routes
 app.use('/api/users', require('./routes/userRoutes'));
 
+// Booking routes
+app.use('/api/bookings', require('./routes/bookingRoutes'));
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

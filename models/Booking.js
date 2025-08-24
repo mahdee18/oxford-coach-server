@@ -11,25 +11,35 @@ const bookingSchema = new mongoose.Schema({
     ref: 'Schedule',
     required: [true, 'Schedule is required']
   },
-  seatNumber: {
-    type: Number,
-    required: [true, 'Seat number is required'],
-    min: [1, 'Seat number must be at least 1']
+  bus: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Bus',
+    required: [true, 'Bus is required']
   },
-  bookingDate: {
-    type: Date,
-    default: Date.now
+  selectedSeats: [{
+    type: String,
+    required: [true, 'Selected seats are required']
+  }],
+  totalFare: {
+    type: Number,
+    required: [true, 'Total fare is required'],
+    min: [0, 'Total fare must be at least 0']
   },
   status: {
     type: String,
-    enum: ['confirmed', 'cancelled'],
-    default: 'confirmed'
+    enum: ['pending', 'confirmed', 'cancelled'],
+    default: 'pending'
+  },
+  pnrNumber: {
+    type: String,
+    required: [true, 'PNR number is required'],
+    unique: true
   }
 }, {
   timestamps: true
 });
 
-// Create a compound index to prevent duplicate bookings for the same seat on the same schedule
-bookingSchema.index({ schedule: 1, seatNumber: 1 }, { unique: true });
+// Create a compound index to prevent duplicate bookings for the same seats on the same schedule
+bookingSchema.index({ schedule: 1, selectedSeats: 1 }, { unique: true });
 
 module.exports = mongoose.model('Booking', bookingSchema);

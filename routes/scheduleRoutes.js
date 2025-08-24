@@ -159,7 +159,7 @@ router.get('/:id', async (req, res) => {
     const scheduleId = req.params.id;
     
     // Find the schedule by ID and populate bus details
-    const schedule = await Schedule.findById(scheduleId).populate('bus', 'name operator');
+    const schedule = await Schedule.findById(scheduleId).populate('bus', 'name operator busType totalSeats amenities');
     
     if (!schedule) {
       return res.status(404).json({ message: 'Schedule not found' });
