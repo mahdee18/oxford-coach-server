@@ -71,7 +71,10 @@ const createBooking = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      booking
+      booking: {
+        ...booking.toObject(),
+        pnrNumber: booking.pnrNumber
+      }
     });
   } catch (error) {
     console.error('Error creating booking:', error);

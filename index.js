@@ -44,6 +44,9 @@ app.use('/api/users', require('./routes/userRoutes'));
 // Booking routes
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 
+// Payment routes
+app.use('/api/payments', require('./routes/paymentRoutes'));
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
