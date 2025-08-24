@@ -4,6 +4,8 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const authMiddleware = require('../middleware/authMiddleware');
+const adminMiddleware = require('../middleware/adminMiddleware');
 
 // @route   POST api/auth/register
 // @desc    Register a user
@@ -87,7 +89,8 @@ router.post('/login', [
     // Step 5: Generate the Success Token
     const payload = {
       user: {
-        id: user.id
+        id: user.id,
+        role: user.role
       }
     };
 
@@ -102,7 +105,8 @@ router.post('/login', [
       token,
       user: {
         id: user.id,
-        name: user.name
+        name: user.name,
+        role: user.role
       }
     });
 
@@ -111,6 +115,13 @@ router.post('/login', [
     console.error('Error stack:', error.stack);
     res.status(500).json({ error: 'Server error', details: error.message });
   }
+});
+
+// @route   GET api/auth/admin
+// @desc    Test admin access
+// @access  Private (Admin only)
+router.get('/admin', authMiddleware, adminMiddleware, (req, res) => {
+  res.json({ message: 'Welcome, admin!', user: req.user });
 });
 
 module.exports = router;

@@ -29,6 +29,18 @@ app.get("/", (req, res) => {
 // Auth routes
 app.use('/api/auth', require('./routes/auth'));
 
+// Bus routes
+app.use('/api/buses', require('./routes/busRoutes'));
+
+// Search routes
+app.use('/api', require('./routes/searchRoutes'));
+
+// Schedule routes
+app.use('/api/schedules', require('./routes/scheduleRoutes'));
+
+// User routes
+app.use('/api/users', require('./routes/userRoutes'));
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
